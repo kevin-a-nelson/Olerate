@@ -1,4 +1,4 @@
-const MAP_RMP_TO_SIS_2 = {
+const MANUAL_RMP_TO_SIS = {
     "Cunningham Maurella": "Cunningham Maurella",
     "Shea Kathy": "Shea, Kathleen L.",
     "Kandl Kim": "Kandl, Kimberly A.",
@@ -10,4 +10,4 @@ const MAP_RMP_TO_SIS_2 = {
     "Wong KA": "Wong, Ka F.",
 };
 
-module.exports = MAP_RMP_TO_SIS_2;
+module.exports = MANUAL_RMP_TO_SIS;

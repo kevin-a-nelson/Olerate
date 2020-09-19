@@ -1,4 +1,4 @@
-const RMP_PROFS = {
+const MAPPED_RMP_PROFS = {
     "Hall-Holt, Olaf A.": "479493",
     "Wells, Colin": "24808",
     "Judge, Rebecca": "55473",
@@ -151,6 +151,7 @@ const RMP_PROFS = {
     "Moore, Lisa L.": "2102366",
     "Epstein, Louis K.": "2102898",
     "Randall, Amanda": "2107941",
+    "Nordfjord, Bjorn": "2117294",
     "Fuerstein, Michael": "2361923",
     "Maeda, Dana L.": "2153262",
     "Cole, Steven": "2165072",
@@ -172,7 +173,6 @@ const RMP_PROFS = {
     "Cunningham Maurella": "2379201",
     "Tegtmeyer, Judith": "2379213",
     "Kruse, Dale": "2385197",
-    "Holt, Ketty": "2411002",
     "Johnson, Susie": "2411004",
     "Feldt, Alison J.": "2411005",
     "Kheshgi, Rehanna L.": "2411007",
@@ -183,6 +183,7 @@ const RMP_PROFS = {
     "Jorgenson, Kiara": "2419118",
     "Jensen, Elizabeth A.": "2429032",
     "Pollard, Vernon": "2445018",
+    "Scopatz, Dana K.": "2445396",
     "Harris, Colin": "2447215",
     "Schmidt, Bryan": "2447421",
     "Hanson, Marit K.": "2450371",
@@ -281,6 +282,7 @@ const RMP_PROFS = {
     "Williams, Arneshia L.": "2288583",
     "Fitzgerald, Michael": "386746",
     "Grenberg, Jeanine": "517124",
+    "Holt, Ketty": "2411002",
     "Tegtmeyer Pak, Katherine S.": "343076",
     "Umbanhowar, Charles Jr.": "430887",
     "Barnes-Karol, Gwendolyn": "2609165",
@@ -312,4 +314,4 @@ const RMP_PROFS = {
     "Scholz-Carlson, Miriam": "2620065",
     "Ananda-Owens, Kathryn": "2620083",
 };
-module.exports = RMP_PROFS;
+module.exports = MAPPED_RMP_PROFS;
