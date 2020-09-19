@@ -1,0 +1,21 @@
+{
+    "name": "Olerate",
+    "description": "See a professor's rating on my https://www.ratemyprofessors.com/ directly in https://sis.stolaf.edu/sis/public-aclasslab.cfm",
+    "version": "1.1",
+    "manifest_version": 2,
+    "content_scripts": [
+        {
+            "matches": ["https://sis.stolaf.edu/sis/public-aclasslab.cfm*"],
+            "js": ["professors.js", "unMatchedProfessors.js", "content.js"]
+        }
+    ],
+    "icons": {
+        "16": "logo-1-16.png",
+        "48": "logo-1-48.png",
+        "128": "logo-1-128.png"
+    },
+    "browser_action": {
+        "default_title": "Olerate",
+        "default_popup": "popup.html"
+    }
+}
