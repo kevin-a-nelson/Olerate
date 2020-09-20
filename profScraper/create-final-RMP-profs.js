@@ -2,7 +2,7 @@ const RMP_PROFS = require("./RMP-profs");
 const RMP_TO_SIS = require("./RMP-to-SIS");
 const fs = require("fs");
 
-const mappedRMPProfs = {};
+const finalRMPProfs = {};
 
 function writeFile(file, profs) {
     fs.writeFile(file, profs, function (err) {
@@ -21,13 +21,8 @@ for (let RMPProfName in RMP_PROFS) {
     const SISProfName = RMP_TO_SIS[RMPProfName];
 
     if (SISProfName) {
-        mappedRMPProfs[SISProfName] = RMP_PROFS[RMPProfName];
+        finalRMPProfs[SISProfName] = RMP_PROFS[RMPProfName];
     }
 }
 
-const mappedRMPProfsContents = createFileContents(
-    "MAPPED_RMP_PROFS",
-    JSON.stringify(mappedRMPProfs)
-);
-
-writeFile("mapped-RMP-profs.js", mappedRMPProfsContents);
+writeFile("final-RMP-profs.json", JSON.stringify(finalRMPProfs));

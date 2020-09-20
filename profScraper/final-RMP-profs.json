@@ -1,4 +1,4 @@
-const MAPPED_RMP_PROFS = {
+{
     "Hall-Holt, Olaf A.": "479493",
     "Wells, Colin": "24808",
     "Judge, Rebecca": "55473",
@@ -312,6 +312,5 @@ const MAPPED_RMP_PROFS = {
     "Pinto-Handler, Sergio E.": "2620060",
     "Rainey, Timothy M. II.": "2620061",
     "Scholz-Carlson, Miriam": "2620065",
-    "Ananda-Owens, Kathryn": "2620083",
-};
-module.exports = MAPPED_RMP_PROFS;
+    "Ananda-Owens, Kathryn": "2620083"
+}
