@@ -29,6 +29,11 @@ async function scrapeProfs() {
         }
         if (option.children) {
             let professor = option.children[0].data;
+            if(professor.slice(-1) === ".") {
+                let splitProfessor = professor.split(" ")
+                professor = `${splitProfessor[0]} ${splitProfessor[1]}`
+                
+            } 
             facilityProfs.push(professor);
         }
     });

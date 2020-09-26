@@ -6,7 +6,7 @@
     "content_scripts": [
         {
             "matches": ["https://sis.stolaf.edu/sis/public-aclasslab.cfm*"],
-            "js": ["professors.js", "unMatchedProfessors.js", "content.js"]
+            "js": ["professors.js", "content.js"]
         }
     ],
     "icons": {
