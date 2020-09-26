@@ -106,7 +106,7 @@ const onSearchButtonClick = (RMPData) => {
     const coursesAreLoadedInterval = setInterval(coursesAreLoaded, 100);
 };
 
-fetch( "https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-RMP-profs.json")
+fetch("https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-RMP-profs.json")
 .then((response) => response.json())
 .then((RMPData) => {
     searchButton.addEventListener("click", function() { 

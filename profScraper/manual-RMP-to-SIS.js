@@ -11,6 +11,7 @@ const MANUAL_RMP_TO_SIS = {
     "Cosimini Hill Amy": "Hill Cosimini, Amy M.",
     "Yoshioka Livi": "Yoshioka-Maxwell, Olivia",
     "Dobbs Jennifer": "Kwon Dobbs,",
+    "Gill Emily": "Gill, Emily",
 };
 
 module.exports = MANUAL_RMP_TO_SIS;
