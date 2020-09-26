@@ -13,7 +13,7 @@ function writeFile(file, profs) {
         if (err) {
             return console.error(err);
         }
-        console.log("File created!");
+        console.log(`${file} created!`);
     });
 }
 

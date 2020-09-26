@@ -9,19 +9,17 @@ function writeFile(file, profs) {
         if (err) {
             return console.error(err);
         }
-        console.log("File created!");
+        console.log(`${file} created!`);
     });
-}
-
-function createFileContents(varName, body) {
-    return `const ${varName} = ${body}; module.exports = ${varName}`;
 }
 
 for (let RMPProfName in RMP_PROFS) {
     const SISProfName = RMP_TO_SIS[RMPProfName];
 
     if (SISProfName) {
-        finalRMPProfs[SISProfName] = RMP_PROFS[RMPProfName];
+        const RMPProf = RMP_PROFS[RMPProfName]
+        const finalRMPProf = `${RMPProf.id}:${RMPProf.rating}`
+        finalRMPProfs[SISProfName] = finalRMPProf;
     }
 }
 

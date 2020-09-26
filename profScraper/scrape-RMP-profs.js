@@ -47,6 +47,7 @@ async function scrapeProf(profLink) {
     );
     const $ = cheerio.load(response.data);
     let name = $(".NameTitle__Name-dowf0z-0").text();
+    let rating = $(".RatingValue__Numerator-qw8sqy-2").text();
 
     name = name.trim();
     name = name.split(" ");
@@ -55,7 +56,7 @@ async function scrapeProf(profLink) {
 
     const id = profLink.split("=")[1];
 
-    const prof = { id, name };
+    const prof = { id, name, rating };
     console.log(prof);
     return prof;
 }
@@ -65,7 +66,7 @@ function writeFile(file, profs) {
         if (err) {
             return console.error(err);
         }
-        console.log("File created!");
+        console.log(`${file} created!`);
     });
 }
 
@@ -74,7 +75,7 @@ async function getProfs(profLinks) {
     for (let i = 0; i < profLinks.length; i++) {
         const profLink = profLinks[i];
         const prof = await scrapeProf(profLink);
-        profs[prof.name] = prof.id;
+        profs[prof.name] = prof;
     }
     return profs;
 }

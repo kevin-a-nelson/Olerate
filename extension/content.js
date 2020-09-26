@@ -84,6 +84,12 @@ const setMessageToNothing = () => {
 };
 
 const onSearchButtonClick = () => {
+    fetch(
+        "https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-RMP-profs.json"
+    )
+        .then((response) => response.json())
+        .then((data) => console.log(data));
+    console.log("Is this working?")
     let intervals = 0;
     const coursesAreLoaded = () => {
         setMessageToLoading();
