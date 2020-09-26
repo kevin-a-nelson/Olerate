@@ -8,6 +8,21 @@ function formatProfessor(professor) {
     return professor;
 }
 
+const insertProfessorRating = (element, RMPProf, professor) => {
+    if (RMPProf) {
+        const ProfRating = RMPProf.split(":")[1]
+        const ProfId = RMPProf.split(":")[0]
+        element.innerText = `${professor} (${ProfRating})`;
+        element.href = `https://www.ratemyprofessors.com/ShowRatings.jsp?tid=${ProfId}`;
+        element.target = "_blank";
+    } else {
+        element.innerText = `${professor}\n( Not Found )`;
+        element.href = "javascript:void(0)";
+        element.style.textDecoration = "none";
+        element.style.color = "black";
+    }
+}
+
 const insertProfessorRatings = (RMPProfs) => {
     const elementsWithLinks = document.getElementsByClassName(
         "sis-nounderline"
@@ -21,27 +36,9 @@ const insertProfessorRatings = (RMPProfs) => {
 
     for (let i = 0; i < elementsWithProfessorNames.length; i++) {
         let professor = elementsWithProfessorNames[i].innerText;
-
         professor = formatProfessor(professor);
-
         const RMPProf = RMPProfs[professor]
-
-        if (RMPProf) {
-            const ProfRating = RMPProf.split(":")[1]
-            const ProfId = RMPProf.split(":")[0]
-            elementsWithProfessorNames[
-                i
-            ].innerText = `${professor} (${ProfRating})`;
-            elementsWithProfessorNames[
-                i
-            ].href = `https://www.ratemyprofessors.com/ShowRatings.jsp?tid=${ProfId}`;
-            elementsWithProfessorNames[i].target = "_blank";
-        } else {
-            elementsWithProfessorNames[i].innerText = `${professor}\n( Not Found )`;
-            elementsWithProfessorNames[i].href = "javascript:void(0)";
-            elementsWithProfessorNames[i].style.textDecoration = "none";
-            elementsWithProfessorNames[i].style.color = "black";
-        }
+        insertProfessorRating(elementsWithProfessorNames[i], RMPProf, professor)
     }
 };
 
@@ -63,6 +60,12 @@ const paragraphTextNode = document.createTextNode(
 paragraphElement.appendChild(paragraphTextNode);
 form.appendChild(paragraphElement);
 
+// Change Instructor(s) to Instructor(rating)
+function setInstructorLabel() {
+    const instructor = document.getElementsByClassName("course--instructor")[0];
+    instructor.innerText = "Instructor\n(rating)"
+}
+
 const setMessageToLoading = () => {
     paragraphElement.innerText =
         "Loading professor's ratings ( may take up to 15 seconds ) ...";
@@ -83,13 +86,14 @@ const setMessageToNothing = () => {
     results.style.display = "";
 };
 
-const onSearchButtonClick = (data) => {
+const onSearchButtonClick = (RMPData) => {
     const coursesAreLoaded = () => {
         setMessageToLoading();
         if (!searchButton.disabled) {
             if (coursesFound()) {
+                setInstructorLabel();
                 setMessageToSuccess();
-                insertProfessorRatings(data);
+                insertProfessorRatings(RMPData);
             } else {
                 setMessageToNothing();
             }
@@ -102,9 +106,10 @@ const onSearchButtonClick = (data) => {
     const coursesAreLoadedInterval = setInterval(coursesAreLoaded, 100);
 };
 
-fetch(
-    "https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-RMP-profs.json"
-).then((response) => response.json())
-.then((data) => {
-    searchButton.addEventListener("click", function() { onSearchButtonClick(data) });
+fetch( "https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-RMP-profs.json")
+.then((response) => response.json())
+.then((RMPData) => {
+    searchButton.addEventListener("click", function() { 
+        onSearchButtonClick(RMPData) 
+    });
 })
