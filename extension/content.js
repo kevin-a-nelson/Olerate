@@ -1,54 +1,18 @@
-function formatProfessor(professor) {
-    let splitProfessor = professor.split(" ");
-    if (splitProfessor.length === 3) {
-        const firstName = splitProfessor[0];
-        const lastName = splitProfessor[1];
-        professor = `${firstName} ${lastName}`;
-    }
-    return professor;
-}
-
-const insertProfessorRating = (element, RMPProf, professor) => {
-    if (RMPProf) {
-        const ProfRating = RMPProf.split(":")[1]
-        const ProfId = RMPProf.split(":")[0]
-        element.innerText = `${professor} (${ProfRating})`;
-        element.href = `https://www.ratemyprofessors.com/ShowRatings.jsp?tid=${ProfId}`;
-        element.target = "_blank";
-    } else {
-        element.innerText = `${professor}\n( Not Found )`;
-        element.href = "javascript:void(0)";
-        element.style.textDecoration = "none";
-        element.style.color = "black";
-    }
-}
-
-const insertProfessorRatings = (RMPProfs) => {
-    const elementsWithLinks = document.getElementsByClassName(
-        "sis-nounderline"
-    );
-
-    const elementsWithProfessorNames = Array.from(elementsWithLinks).filter(
-        (element) => {
-            return element.innerText.includes(",");
-        }
-    );
-
-    for (let i = 0; i < elementsWithProfessorNames.length; i++) {
-        let professor = elementsWithProfessorNames[i].innerText;
-        professor = formatProfessor(professor);
-        const RMPProf = RMPProfs[professor]
-        insertProfessorRating(elementsWithProfessorNames[i], RMPProf, professor)
-    }
-};
+/*
+================================================
+    Globals
+================================================
+*/
 
 const results = document.getElementById("results");
 const searchButton = document.getElementsByName("searchbutton")[0];
+const hardCodedRMPData = HARD_CODED_RMP_DATA
 
-const coursesFound = () => {
-    const resultsText = results.innerText;
-    return !resultsText.includes("No classes found");
-};
+/*
+================================================
+    UI Logic
+================================================
+*/
 
 // init message
 const form = document.getElementsByTagName("form")[0];
@@ -59,12 +23,6 @@ const paragraphTextNode = document.createTextNode(
 );
 paragraphElement.appendChild(paragraphTextNode);
 form.appendChild(paragraphElement);
-
-// Change Instructor(s) to Instructor(rating)
-function setInstructorLabel() {
-    const instructor = document.getElementsByClassName("course--instructor")[0];
-    instructor.innerText = "Instructor\n(rating)"
-}
 
 const setMessageToLoading = () => {
     paragraphElement.innerText =
@@ -84,6 +42,69 @@ const setMessageToNothing = () => {
     paragraphElement.className = "";
     paragraphElement.innerText = "";
     results.style.display = "";
+};
+
+// Change Instructor(s) to Instructor(rating)
+function setInstructorLabel() {
+    const instructor = document.getElementsByClassName("course--instructor")[0];
+    instructor.innerText = "Instructor\n(rating)"
+}
+
+
+/*
+================================================
+    Logic for inserting profs ratings
+    when search button is clicked
+================================================
+*/
+
+function formatProfessor(professor) {
+    let splitProfessor = professor.split(" ");
+    if (splitProfessor.length === 3) {
+        const firstName = splitProfessor[0];
+        const lastName = splitProfessor[1];
+        professor = `${firstName} ${lastName}`;
+    }
+    return professor;
+}
+
+const insertProfRating = (profElement, RMPProf, professor) => {
+    if (RMPProf) {
+        const ProfRating = RMPProf.split(":")[1]
+        const ProfId = RMPProf.split(":")[0]
+        profElement.innerText = `${professor} (${ProfRating})`;
+        profElement.href = `https://www.ratemyprofessors.com/ShowRatings.jsp?tid=${ProfId}`;
+        profElement.target = "_blank";
+    } else {
+        profElement.innerText = `${professor}\n(Not Found)`;
+        profElement.href = "javascript:void(0)";
+        profElement.style.textDecoration = "none";
+        profElement.style.color = "black";
+    }
+}
+
+const insertProfessorRatings = (RMPProfs) => {
+    const elementsWithLinks = document.getElementsByClassName(
+        "sis-nounderline"
+    );
+
+    const profElements = Array.from(elementsWithLinks).filter(
+        (element) => {
+            return element.innerText.includes(",");
+        }
+    );
+
+    for (let i = 0; i < profElements.length; i++) {
+        let professor = profElements[i].innerText;
+        professor = formatProfessor(professor);
+        const RMPProf = RMPProfs[professor]
+        insertProfRating(profElements[i], RMPProf, professor)
+    }
+};
+
+const coursesFound = () => {
+    const resultsText = results.innerText;
+    return !resultsText.includes("No classes found");
 };
 
 const onSearchButtonClick = (RMPData) => {
@@ -106,10 +127,80 @@ const onSearchButtonClick = (RMPData) => {
     const coursesAreLoadedInterval = setInterval(coursesAreLoaded, 100);
 };
 
-fetch("https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-RMP-profs.json")
-.then((response) => response.json())
-.then((RMPData) => {
+/*
+================================================
+    Logic for deciding whether to use
+        - Hard Coded Data
+        - Local Storage Data
+        - Or Fetched Data
+================================================
+*/
+
+function dataFetchedLessThanTenMinAgo() {
+    if(!localStorage.RMPData) {
+        return false
+    }
+    const RMPData = JSON.parse(localStorage.RMPData)
+    const localStorageDate = new Date(RMPData.time)
+    const now = new Date()
+
+    const miliseconds = now - localStorageDate 
+    const seconds = miliseconds / 1000
+    const minutes = seconds / 60
+    return minutes <= 10
+}
+
+function hardCodedDataIsMoreRecent() {
+    if(!localStorage.RMPData) {
+        return true
+    }
+    const hardCodedDataTime = hardCodedRMPData.time
+    const localStorageTime = JSON.parse(localStorage.RMPData)
+    return hardCodedDataTime > localStorageTime
+}
+
+
+function useFetchedData(RMPData) {
+    RMPData.time = new Date()
+    localStorage.setItem("RMPData", JSON.stringify(RMPData))
+
     searchButton.addEventListener("click", function() { 
         onSearchButtonClick(RMPData) 
     });
-})
+}
+
+function useHardCodedData() {
+    searchButton.addEventListener("click", function() { 
+        onSearchButtonClick(hardCodedRMPData) 
+    });
+}
+
+function useLocalStorageData() {
+    const localStorageData = JSON.parse(localStorage.RMPData)
+    searchButton.addEventListener("click", function() { 
+        onSearchButtonClick(localStorageData) 
+    });
+}
+
+
+function main() {
+    if(dataFetchedLessThanTenMinAgo()) {
+        useLocalStorageData()
+    } else {
+        fetch("https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-RMP-profs.json")
+        .then((response) => response.json())
+        .then((RMPData) => {
+            useFetchedData(RMPData)
+        })
+        .catch((error) => {
+            hardCodedDataIsMoreRecent() ?
+                useHardCodedData()
+                :
+                useLocalStorageData()
+        })
+    }
+}
+
+main()
+
+

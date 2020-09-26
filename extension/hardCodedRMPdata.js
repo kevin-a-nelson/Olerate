@@ -1,4 +1,4 @@
-{
+const HARD_CODED_RMP_DATA = {
     "Hall-Holt, Olaf": "479493:3.7",
     "Wells, Colin": "24808:4.2",
     "Judge, Rebecca": "55473:3.3",
@@ -313,5 +313,6 @@
     "Pinto-Handler, Sergio": "2620060:N/A",
     "Rainey, Timothy M. II.": "2620061:N/A",
     "Scholz-Carlson, Miriam": "2620065:N/A",
-    "Ananda-Owens, Kathryn": "2620083:N/A"
-}
+    "Ananda-Owens, Kathryn": "2620083:N/A",
+    time: new Date("Sat Sep 26 2020 10:13:51 GMT-0500 (Central Daylight Time"),
+};
