@@ -1,6 +1,6 @@
 {
     "name": "Olerate",
-    "description": "See a professor's rating on my https://www.ratemyprofessors.com/ directly in https://sis.stolaf.edu/sis/public-aclasslab.cfm",
+    "description": "Click on a professor and get linked to their page on rate my professor.",
     "version": "1.2",
     "manifest_version": 2,
     "content_scripts": [
