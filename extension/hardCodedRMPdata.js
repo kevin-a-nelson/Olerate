@@ -314,5 +314,5 @@ const HARD_CODED_RMP_DATA = {
     "Rainey, Timothy M. II.": "2620061:N/A",
     "Scholz-Carlson, Miriam": "2620065:N/A",
     "Ananda-Owens, Kathryn": "2620083:N/A",
-    time: new Date("Sat Sep 26 2020 10:13:51 GMT-0500 (Central Daylight Time"),
+    time: new Date("Sat Sep 26 2020 21:57:50 GMT-0500 (Central Daylight Time)"),
 };

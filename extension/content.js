@@ -18,9 +18,7 @@ const hardCodedRMPData = HARD_CODED_RMP_DATA
 const form = document.getElementsByTagName("form")[0];
 const paragraphElement = document.createElement("P");
 paragraphElement.className = "sis-flash sis-flash-success";
-const paragraphTextNode = document.createTextNode(
-    "Olerate is Activated! Click the 'Search' button up above to begin"
-);
+const paragraphTextNode = document.createTextNode( "Olerate is Activated! Click the 'Search' button up above to begin");
 paragraphElement.appendChild(paragraphTextNode);
 form.appendChild(paragraphElement);
 
@@ -33,8 +31,7 @@ const setMessageToLoading = () => {
 
 const setMessageToSuccess = () => {
     paragraphElement.className = "sis-flash sis-flash-success";
-    paragraphElement.innerText =
-        "Success! Click on a professor to go to their rate my professor page!";
+    paragraphElement.innerText = "Success! Click on a professor to go to their rate my professor page!";
     results.style.display = "";
 };
 
@@ -155,7 +152,8 @@ function hardCodedDataIsMoreRecent() {
         return true
     }
     const hardCodedDataTime = hardCodedRMPData.time
-    const localStorageTime = JSON.parse(localStorage.RMPData)
+    let localStorageTime = JSON.parse(localStorage.RMPData).time
+    localStorageTime = new Date(localStorageTime)
     return hardCodedDataTime > localStorageTime
 }
 
@@ -193,10 +191,11 @@ function main() {
             useFetchedData(RMPData)
         })
         .catch((error) => {
-            hardCodedDataIsMoreRecent() ?
+            if(hardCodedDataIsMoreRecent()) {
                 useHardCodedData()
-                :
+            } else {
                 useLocalStorageData()
+            }
         })
     }
 }
