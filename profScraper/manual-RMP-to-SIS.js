@@ -12,6 +12,7 @@ const MANUAL_RMP_TO_SIS = {
     "Yoshioka Livi": "Yoshioka-Maxwell, Olivia",
     "Dobbs Jennifer": "Kwon Dobbs,",
     "Gill Emily": "Gill, Emily",
+    "Tegtmeyer-Pak Katherine": "Tegtmeyer Pak, Katherine S.",
 };
 
 module.exports = MANUAL_RMP_TO_SIS;

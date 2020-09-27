@@ -1,6 +1,6 @@
 {
     "name": "Olerate",
-    "description": "Click on a professor and get linked to their page on rate my professor.",
+    "description": "Click on a professor on https://sis.stolaf.edu/sis/public-aclasslab.cfm and get linked to their page on ratemyprofessor.com",
     "version": "1.2",
     "manifest_version": 2,
     "content_scripts": [
