@@ -23,8 +23,7 @@ paragraphElement.appendChild(paragraphTextNode);
 form.appendChild(paragraphElement);
 
 const setMessageToLoading = () => {
-    paragraphElement.innerText =
-        "Loading professor's ratings ( may take up to 15 seconds ) ...";
+    paragraphElement.innerText = "Loading rate my professor links ( may take up to 15 seconds ) ...";
     paragraphElement.className = "sis-flash sis-flash-primary";
     results.style.display = "none";
 };
@@ -158,12 +157,12 @@ function hardCodedDataIsMoreRecent() {
 }
 
 
-function useFetchedData(RMPData) {
-    RMPData.time = new Date()
-    localStorage.setItem("RMPData", JSON.stringify(RMPData))
+function useFetchedData(fetchedRMPData) {
+    fetchedRMPData.time = new Date()
+    localStorage.setItem("RMPData", JSON.stringify(fetchedRMPData))
 
     searchButton.addEventListener("click", function() { 
-        onSearchButtonClick(RMPData) 
+        onSearchButtonClick(fetchedRMPData) 
     });
 }
 
