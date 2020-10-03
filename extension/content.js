@@ -184,7 +184,12 @@ function main() {
     if(dataFetchedLessThanTenMinAgo()) {
         useLocalStorageData()
     } else {
-        fetch("https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-RMP-profs.json")
+        const url = ENV.isProd ? 
+        "https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-RMP-profs.json"
+        :
+        "https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/test-RMP-profs.json"
+
+        fetch(url)
         .then((response) => response.json())
         .then((RMPData) => {
             useFetchedData(RMPData)
