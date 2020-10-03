@@ -29,10 +29,10 @@ async function scrapeProfs() {
         }
         if (option.children) {
             let professor = option.children[0].data;
-            let splitProfessor = professor.split(" ")
-            if(splitProfessor.length >= 3) {
-                professor = `${splitProfessor[0]} ${splitProfessor[1]}`
-            } 
+            // let splitProfessor = professor.split(" ")
+            // if(splitProfessor.length >= 3) {
+            //     professor = `${splitProfessor[0]} ${splitProfessor[1]}`
+            // } 
             facilityProfs.push(professor);
         }
     });

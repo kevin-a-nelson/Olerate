@@ -90,8 +90,6 @@ const insertProfessorRatings = (RMPProfs) => {
         }
     );
 
-    console.log(profElements)
-
     for (let i = 0; i < profElements.length; i++) {
         let professor = profElements[i].innerText;
         // professor = formatProfessor(professor);

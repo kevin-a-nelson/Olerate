@@ -1,5 +1,7 @@
 const RMP_PROFS = require("./RMP-profs");
 const RMP_TO_SIS = require("./RMP-to-SIS");
+const ENV = require("./env.js")
+
 const fs = require("fs");
 
 const finalRMPProfs = {};
@@ -23,4 +25,6 @@ for (let RMPProfName in RMP_PROFS) {
     }
 }
 
-writeFile("final-RMP-profs.json", JSON.stringify(finalRMPProfs));
+const nameOfFile = ENV.isProd ? "final-RMP-profs.json" : "test-RMP-profs.json"
+
+writeFile(nameOfFile, JSON.stringify(finalRMPProfs));
