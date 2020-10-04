@@ -1,13 +1,13 @@
 node scrape-RMP-profs.js
-sleep 1
+sleep 3
 node scrape-SIS-profs.js
-sleep 1
+sleep 3
 node create-RMP-to-SIS.js
-sleep 1
+sleep 3
 node create-final-RMP-profs.js
-sleep 1
+sleep 3
 git add --all
-sleep 1
+sleep 3
 git commit -m "update profs"
-sleep 1
+sleep 3
 git push origin master
