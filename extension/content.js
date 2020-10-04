@@ -136,6 +136,7 @@ function dataFetchedLessThanTenMinAgo() {
     if(!localStorage.RMPData) {
         return false
     }
+
     const RMPData = JSON.parse(localStorage.RMPData)
     const localStorageDate = new Date(RMPData.time)
     const now = new Date()
@@ -158,6 +159,7 @@ function hardCodedDataIsMoreRecent() {
 
 
 function useFetchedData(fetchedRMPData) {
+    console.log("using fetched data")
     fetchedRMPData.time = new Date()
     localStorage.setItem("RMPData", JSON.stringify(fetchedRMPData))
 
@@ -167,12 +169,14 @@ function useFetchedData(fetchedRMPData) {
 }
 
 function useHardCodedData() {
+    console.log("using hardcoded data")
     searchButton.addEventListener("click", function() { 
         onSearchButtonClick(hardCodedRMPData) 
     });
 }
 
 function useLocalStorageData() {
+    console.log("using local data")
     const localStorageData = JSON.parse(localStorage.RMPData)
     searchButton.addEventListener("click", function() { 
         onSearchButtonClick(localStorageData) 
