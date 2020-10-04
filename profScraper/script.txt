@@ -1,6 +1,9 @@
 node scrape-RMP-profs.js
+sleep 1
 node scrape-SIS-profs.js
+sleep 1
 node create-RMP-to-SIS.js
+sleep 1
 node create-final-RMP-profs.js
 sleep 1
 git add --all
