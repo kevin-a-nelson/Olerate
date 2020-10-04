@@ -1,5 +1,5 @@
 const ENV = {
-    isProd: false
+    isA: false
 }
 
 module.exports = ENV

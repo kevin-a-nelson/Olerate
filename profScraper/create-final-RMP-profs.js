@@ -25,6 +25,6 @@ for (let RMPProfName in RMP_PROFS) {
     }
 }
 
-const nameOfFile = ENV.isProd ? "final-RMP-profs.json" : "test-RMP-profs.json"
+const nameOfFile = ENV.isA ? "final-A-RMP-profs.json" : "final-B-RMP-profs.json"
 
 writeFile(nameOfFile, JSON.stringify(finalRMPProfs));

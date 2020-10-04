@@ -1,3 +1,3 @@
 const ENV = {
-    isProd: false
+    isA: false
 }
