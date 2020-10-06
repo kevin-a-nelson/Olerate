@@ -4,9 +4,34 @@
 ================================================
 */
 
-const results = document.getElementById("results");
+function createElementWithNChildDivs(n) {
+  const parentDiv = document.createElement("div");
+  for (let i = 0; i < n; i++) {
+    const childDiv = document.createElement("div");
+    parentDiv.appendChild(childDiv);
+  }
+  return parentDiv;
+}
+
+const courseTable = document.getElementById("results");
 const searchButton = document.getElementsByName("searchbutton")[0];
-const hardCodedRMPData = HARD_CODED_RMP_DATA
+const bigBodyMainstyle = document.getElementById("bigbodymainstyle");
+const form = document.getElementsByTagName("form")[0];
+const messageContainer = document.createElement("div");
+messageContainer.id = "olerate-message-container";
+messageContainer.classList = "sis-flash sis-flash-success";
+const hardCodedRMPData = HARD_CODED_RMP_DATA;
+
+const ldsFacebook = createElementWithNChildDivs(3);
+
+const pacManGif = document.createElement("img");
+
+const ldsCircle = createElementWithNChildDivs(1);
+
+const ldsRipple = document.createElement("div");
+
+spinner = pacMan;
+const spinnerClass = "loadingio-spinner-bean-eater-nyxf8aan18j";
 
 /*
 ================================================
@@ -14,38 +39,55 @@ const hardCodedRMPData = HARD_CODED_RMP_DATA
 ================================================
 */
 
-// init message
-const form = document.getElementsByTagName("form")[0];
-const paragraphElement = document.createElement("P");
-paragraphElement.className = "sis-flash sis-flash-success";
-const paragraphTextNode = document.createTextNode( "Olerate is Activated! Click the 'Search' button up above to begin");
-paragraphElement.appendChild(paragraphTextNode);
-form.appendChild(paragraphElement);
+// Init custom UI on page load
+bigBodyMainstyle.insertBefore(messageContainer, courseTable);
+
+const messageElement = document.createElement("div");
+messageElement.id = "olerate-message";
+const messageTextNode = document.createTextNode(
+  "Olerate is Activated! Click the 'Search' button up above to begin"
+);
+messageElement.appendChild(messageTextNode);
+messageContainer.appendChild(spinner);
+messageContainer.appendChild(messageElement);
+
+// UI Functions
+function addLoadingElement() {
+  spinner.className = spinnerClass;
+}
 
 const setMessageToLoading = () => {
-    paragraphElement.innerText = "Loading rate my professor links ( may take up to 15 seconds ) ...";
-    paragraphElement.className = "sis-flash sis-flash-primary";
-    results.style.display = "none";
+  messageElement.innerText =
+    "Loading rate my professor links ( may take up to 15 seconds ) ...";
+  messageContainer.className = "sis-flash sis-flash-primary";
+
+  pacMan.classList = "ldio-ui9a78eupopinnerClass";
+  pacChild.className = "ldio-ui9a78eupo";
+
+  courseTable.style.display = "none";
 };
 
 const setMessageToSuccess = () => {
-    paragraphElement.className = "sis-flash sis-flash-success";
-    paragraphElement.innerText = "Success! Click on a professor to go to their rate my professor page!";
-    results.style.display = "";
+  // messageContainer.className = "sis-flash sis-flash-success";
+  messageContainer.className = "sis-flash sis-flash-success";
+  pacMan.classList = "";
+  pacChild.classList = "";
+  messageElement.innerText =
+    "Success! Click on a professor to go to their rate my professor page!";
+  courseTable.style.display = "";
 };
 
 const setMessageToNothing = () => {
-    paragraphElement.className = "";
-    paragraphElement.innerText = "";
-    results.style.display = "";
+  messageElement.className = "";
+  messageElement.innerText = "";
+  courseTable.style.display = "";
 };
 
 // Change Instructor(s) to Instructor(rating)
 function setInstructorLabel() {
-    const instructor = document.getElementsByClassName("course--instructor")[0];
-    instructor.innerText = "Instructor\n(rating)"
+  const instructor = document.getElementsByClassName("course--instructor")[0];
+  instructor.innerText = "Instructor\n(rating)";
 }
-
 
 /*
 ================================================
@@ -55,72 +97,70 @@ function setInstructorLabel() {
 */
 
 function formatProfessor(professor) {
-    let splitProfessor = professor.split(" ");
-    if (splitProfessor.length === 3) {
-        const firstName = splitProfessor[0];
-        const lastName = splitProfessor[1];
-        professor = `${firstName} ${lastName}`;
-    }
-    return professor;
+  let splitProfessor = professor.split(" ");
+  if (splitProfessor.length === 3) {
+    const firstName = splitProfessor[0];
+    const lastName = splitProfessor[1];
+    professor = `${firstName} ${lastName}`;
+  }
+  return professor;
 }
 
 const insertProfRating = (profElement, RMPProf, professor) => {
-    if (RMPProf) {
-        const ProfRating = RMPProf.split(":")[1]
-        const ProfId = RMPProf.split(":")[0]
-        profElement.innerText = `${professor} (${ProfRating})`;
-        profElement.href = `https://www.ratemyprofessors.com/ShowRatings.jsp?tid=${ProfId}`;
-        profElement.target = "_blank";
-    } else {
-        profElement.innerText = `${professor}\n(Not Found)`;
-        profElement.href = "javascript:void(0)";
-        profElement.style.textDecoration = "none";
-        profElement.style.color = "black";
-    }
-}
+  if (RMPProf) {
+    const ProfRating = RMPProf.split(":")[1];
+    const ProfId = RMPProf.split(":")[0];
+    profElement.innerText = `${professor} (${ProfRating})`;
+    profElement.href = `https://www.ratemyprofessors.com/ShowRatings.jsp?tid=${ProfId}`;
+    profElement.target = "_blank";
+  } else {
+    profElement.innerText = `${professor}\n(Not Found)`;
+    profElement.href = "javascript:void(0)";
+    profElement.style.textDecoration = "none";
+    profElement.style.color = "black";
+  }
+};
 
 const insertProfessorRatings = (RMPProfs) => {
-    const elementsWithLinks = document.getElementsByClassName(
-        "sis-nounderline"
-    );
+  const elementsWithLinks = document.getElementsByClassName("sis-nounderline");
 
-    const profElements = Array.from(elementsWithLinks).filter(
-        (element) => {
-            return element.innerText.includes(",");
-        }
-    );
+  const profElements = Array.from(elementsWithLinks).filter((element) => {
+    return element.innerText.includes(",");
+  });
 
-    for (let i = 0; i < profElements.length; i++) {
-        let professor = profElements[i].innerText;
-        // professor = formatProfessor(professor);
-        const RMPProf = RMPProfs[professor]
-        insertProfRating(profElements[i], RMPProf, professor)
-    }
+  for (let i = 0; i < profElements.length; i++) {
+    let professor = profElements[i].innerText;
+    // professor = formatProfessor(professor);
+    const RMPProf = RMPProfs[professor];
+    insertProfRating(profElements[i], RMPProf, professor);
+  }
 };
 
 const coursesFound = () => {
-    const resultsText = results.innerText;
-    return !resultsText.includes("No classes found");
+  const resultsText = courseTable.innerText;
+  return !resultsText.includes("No classes found");
 };
 
 const onSearchButtonClick = (RMPData) => {
-    const coursesAreLoaded = () => {
-        setMessageToLoading();
-        if (!searchButton.disabled) {
-            if (coursesFound()) {
-                setInstructorLabel();
-                setMessageToSuccess();
-                insertProfessorRatings(RMPData);
-            } else {
-                setMessageToNothing();
-            }
-            // Stop checking if courses are loaded when courses are loaded
-            clearInterval(coursesAreLoadedInterval);
-        }
+  const coursesAreLoaded = () => {
+    setMessageToLoading();
+    addLoadingElement();
+    if (!searchButton.disabled) {
+      localStorage.setItem("isLoading", false);
+      if (coursesFound()) {
+        setInstructorLabel();
+        setMessageToSuccess();
+        insertProfessorRatings(RMPData);
+      } else {
+        setMessageToNothing();
+      }
+      // Stop checking if courses are loaded when courses are loaded
+      clearInterval(coursesAreLoadedInterval);
     }
+  };
 
-    // Check if courses are loaded every second
-    const coursesAreLoadedInterval = setInterval(coursesAreLoaded, 100);
+  // Check if courses are loaded every second
+  const coursesAreLoadedInterval = setInterval(coursesAreLoaded, 100);
 };
 
 /*
@@ -133,81 +173,88 @@ const onSearchButtonClick = (RMPData) => {
 */
 
 function dataFetchedLessThanTenMinAgo() {
-    if(!localStorage.RMPData) {
-        return false
-    }
+  if (!localStorage.RMPData) {
+    return false;
+  }
 
-    const RMPData = JSON.parse(localStorage.RMPData)
-    const localStorageDate = new Date(RMPData.time)
-    const now = new Date()
+  const RMPData = JSON.parse(localStorage.RMPData);
+  const localStorageDate = new Date(RMPData.time);
+  const now = new Date();
 
-    const miliseconds = now - localStorageDate 
-    const seconds = miliseconds / 1000
-    const minutes = seconds / 60
-    return minutes <= 10
+  const miliseconds = now - localStorageDate;
+  const seconds = miliseconds / 1000;
+  const minutes = seconds / 60;
+  return minutes <= 10;
 }
 
 function hardCodedDataIsMoreRecent() {
-    if(!localStorage.RMPData) {
-        return true
-    }
-    const hardCodedDataTime = hardCodedRMPData.time
-    let localStorageTime = JSON.parse(localStorage.RMPData).time
-    localStorageTime = new Date(localStorageTime)
-    return hardCodedDataTime > localStorageTime
+  if (!localStorage.RMPData) {
+    return true;
+  }
+  const hardCodedDataTime = hardCodedRMPData.time;
+  let localStorageTime = JSON.parse(localStorage.RMPData).time;
+  localStorageTime = new Date(localStorageTime);
+  return hardCodedDataTime > localStorageTime;
 }
 
-
 function useFetchedData(fetchedRMPData) {
-    console.log("using fetched data")
-    fetchedRMPData.time = new Date()
-    localStorage.setItem("RMPData", JSON.stringify(fetchedRMPData))
+  console.log("using fetched data");
+  fetchedRMPData.time = new Date();
+  localStorage.setItem("RMPData", JSON.stringify(fetchedRMPData));
 
-    searchButton.addEventListener("click", function() { 
-        onSearchButtonClick(fetchedRMPData) 
-    });
+  searchButton.addEventListener("click", function () {
+    onSearchButtonClick(fetchedRMPData);
+  });
 }
 
 function useHardCodedData() {
-    console.log("using hardcoded data")
-    searchButton.addEventListener("click", function() { 
-        onSearchButtonClick(hardCodedRMPData) 
-    });
+  console.log("using hardcoded data");
+  searchButton.addEventListener("click", function () {
+    onSearchButtonClick(hardCodedRMPData);
+  });
 }
 
 function useLocalStorageData() {
-    console.log("using local data")
-    const localStorageData = JSON.parse(localStorage.RMPData)
-    searchButton.addEventListener("click", function() { 
-        onSearchButtonClick(localStorageData) 
-    });
+  console.log("using local data");
+  const localStorageData = JSON.parse(localStorage.RMPData);
+  searchButton.addEventListener("click", function () {
+    onSearchButtonClick(localStorageData);
+  });
 }
-
 
 function main() {
-    if(dataFetchedLessThanTenMinAgo()) {
-        useLocalStorageData()
-    } else {
-        const url = ENV.isA ? 
-        "https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-A-RMP-profs.json"
-        :
-        "https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-B-RMP-profs.json"
+  // For testing purposes
+  if (ENV.useLocalData) {
+    useLocalStorageData();
+    return;
+  } else if (ENV.useFetchedData) {
+    useFetchedData();
+    return;
+  } else if (ENV.useHardCodedData) {
+    useHardCodedData();
+    return;
+  }
 
-        fetch(url)
-        .then((response) => response.json())
-        .then((RMPData) => {
-            useFetchedData(RMPData)
-        })
-        .catch((error) => {
-            if(hardCodedDataIsMoreRecent()) {
-                useHardCodedData()
-            } else {
-                useLocalStorageData()
-            }
-        })
-    }
+  if (dataFetchedLessThanTenMinAgo()) {
+    useLocalStorageData();
+  } else {
+    const url = ENV.isA
+      ? "https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-A-RMP-profs.json"
+      : "https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-B-RMP-profs.json";
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((RMPData) => {
+        useFetchedData(RMPData);
+      })
+      .catch((error) => {
+        if (hardCodedDataIsMoreRecent()) {
+          useHardCodedData();
+        } else {
+          useLocalStorageData();
+        }
+      });
+  }
 }
 
-main()
-
-
+main();

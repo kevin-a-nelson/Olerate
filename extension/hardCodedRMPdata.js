@@ -315,4 +315,3 @@ const HARD_CODED_RMP_DATA = {
   "Ananda-Owens, Kathryn": "2620083:N/A",
 };
 
-module.exports = HARD_CODED_RMP_DATA

@@ -5,6 +5,7 @@
     "manifest_version": 2,
     "content_scripts": [
         {
+            "css": [ "content.css" ],
             "matches": ["https://sis.stolaf.edu/sis/public-aclasslab.cfm*"],
             "js": ["env.js","hardCodedRMPData.js","content.js"]
         }
