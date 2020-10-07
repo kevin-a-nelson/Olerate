@@ -23,12 +23,12 @@ bigBodyMainstyle.insertBefore(messageContainer, courseTable);
 
 messageContainer.id = "olerate-message-container";
 messageContainer.className = "sis-flash sis-flash-success";
-messageElement.id = "olerate-message-success";
 
 const messageElement = document.createElement("div");
 const messageTextNode = document.createTextNode(
   "Olerate is Activated! Click the 'Search' button up above to begin"
 );
+messageElement.id = "olerate-message-success";
 
 messageElement.appendChild(messageTextNode);
 messageContainer.appendChild(spinner);
