@@ -1,3 +1,50 @@
-.body {
-    width: 200px;
+body {
+  width: 300px;
+}
+
+body,
+html {
+  padding: 0px;
+  margin: 0px;
+}
+
+.logo-container {
+  /* background: blue; */
+  width: 40px;
+  height: 40px;
+  /* background: blue; */
+}
+
+.logo {
+  width: 100%;
+  height: auto;
+}
+
+.header {
+  display: flex;
+  padding: 10px 15px;
+}
+
+.header-title {
+  margin-left: 5px;
+  font-size: 16px;
+  line-height: 43px;
+  font-family: Futura;
+}
+
+.line {
+  padding: 0px;
+  margin: 0px;
+  opacity: 0.5;
+}
+
+.content {
+  padding: 0 26px;
+}
+
+a {
+  color: #0d47a1;
+}
+a:visited {
+  color: #0d47a1;
 }
