@@ -4,34 +4,13 @@
 ================================================
 */
 
-function createElementWithNChildDivs(n) {
-  const parentDiv = document.createElement("div");
-  for (let i = 0; i < n; i++) {
-    const childDiv = document.createElement("div");
-    parentDiv.appendChild(childDiv);
-  }
-  return parentDiv;
-}
-
+const hardCodedRMPData = HARD_CODED_RMP_DATA;
 const courseTable = document.getElementById("results");
 const searchButton = document.getElementsByName("searchbutton")[0];
 const bigBodyMainstyle = document.getElementById("bigbodymainstyle");
 const form = document.getElementsByTagName("form")[0];
 const messageContainer = document.createElement("div");
-messageContainer.id = "olerate-message-container";
-messageContainer.classList = "sis-flash sis-flash-success";
-const hardCodedRMPData = HARD_CODED_RMP_DATA;
-
-const ldsFacebook = createElementWithNChildDivs(3);
-
-const pacManGif = document.createElement("img");
-
-const ldsCircle = createElementWithNChildDivs(1);
-
-const ldsRipple = document.createElement("div");
-
-spinner = pacMan;
-const spinnerClass = "loadingio-spinner-bean-eater-nyxf8aan18j";
+const spinner = document.createElement("div");
 
 /*
 ================================================
@@ -42,36 +21,39 @@ const spinnerClass = "loadingio-spinner-bean-eater-nyxf8aan18j";
 // Init custom UI on page load
 bigBodyMainstyle.insertBefore(messageContainer, courseTable);
 
+messageContainer.id = "olerate-message-container";
+messageContainer.className = "sis-flash sis-flash-success";
+messageElement.id = "olerate-message-success";
+
 const messageElement = document.createElement("div");
-messageElement.id = "olerate-message";
 const messageTextNode = document.createTextNode(
   "Olerate is Activated! Click the 'Search' button up above to begin"
 );
+
 messageElement.appendChild(messageTextNode);
 messageContainer.appendChild(spinner);
 messageContainer.appendChild(messageElement);
 
 // UI Functions
-function addLoadingElement() {
-  spinner.className = spinnerClass;
+function addSpinner() {
+  spinner.className = "lds-hourglass";
+}
+
+function removeSpinner() {
+  spinner.className = "";
 }
 
 const setMessageToLoading = () => {
   messageElement.innerText =
-    "Loading rate my professor links ( may take up to 15 seconds ) ...";
-  messageContainer.className = "sis-flash sis-flash-primary";
-
-  pacMan.classList = "ldio-ui9a78eupopinnerClass";
-  pacChild.className = "ldio-ui9a78eupo";
-
+    "Loading rate my professor links ( may take up to 15 seconds )";
+  messageElement.id = "olerate-message-loading";
+  messageContainer.className = "sis-flash sis-flash-primary p-3";
   courseTable.style.display = "none";
 };
 
 const setMessageToSuccess = () => {
-  // messageContainer.className = "sis-flash sis-flash-success";
   messageContainer.className = "sis-flash sis-flash-success";
-  pacMan.classList = "";
-  pacChild.classList = "";
+  messageElement.id = "olerate-message-success";
   messageElement.innerText =
     "Success! Click on a professor to go to their rate my professor page!";
   courseTable.style.display = "";
@@ -80,6 +62,7 @@ const setMessageToSuccess = () => {
 const setMessageToNothing = () => {
   messageElement.className = "";
   messageElement.innerText = "";
+  messageContainer.className = "";
   courseTable.style.display = "";
 };
 
@@ -130,7 +113,6 @@ const insertProfessorRatings = (RMPProfs) => {
 
   for (let i = 0; i < profElements.length; i++) {
     let professor = profElements[i].innerText;
-    // professor = formatProfessor(professor);
     const RMPProf = RMPProfs[professor];
     insertProfRating(profElements[i], RMPProf, professor);
   }
@@ -144,9 +126,9 @@ const coursesFound = () => {
 const onSearchButtonClick = (RMPData) => {
   const coursesAreLoaded = () => {
     setMessageToLoading();
-    addLoadingElement();
+    addSpinner();
     if (!searchButton.disabled) {
-      localStorage.setItem("isLoading", false);
+      removeSpinner();
       if (coursesFound()) {
         setInstructorLabel();
         setMessageToSuccess();
@@ -228,7 +210,15 @@ function main() {
     useLocalStorageData();
     return;
   } else if (ENV.useFetchedData) {
-    useFetchedData();
+    const url = ENV.isA
+      ? "https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-A-RMP-profs.json"
+      : "https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-B-RMP-profs.json";
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((RMPData) => {
+        useFetchedData(RMPData);
+      });
     return;
   } else if (ENV.useHardCodedData) {
     useHardCodedData();
