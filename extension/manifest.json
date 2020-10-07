@@ -1,22 +1,22 @@
 {
-    "name": "Olerate",
-    "description": "Click on a professor on https://sis.stolaf.edu/sis/public-aclasslab.cfm and get linked to their page on ratemyprofessor.com",
-    "version": "1.2",
-    "manifest_version": 2,
-    "content_scripts": [
-        {
-            "css": [ "content.css" ],
-            "matches": ["https://sis.stolaf.edu/sis/public-aclasslab.cfm*"],
-            "js": ["env.js","hardCodedRMPData.js","content.js"]
-        }
-    ],
-    "icons": {
-        "16": "images/stolaf128.png",
-        "48": "images/stolaf16.png",
-        "128": "images/stolaf48.png"
-    },
-    "browser_action": {
-        "default_title": "Olerate",
-        "default_popup": "popup.html"
+  "name": "Olerate",
+  "description": "Click on a professor on https://sis.stolaf.edu/sis/public-aclasslab.cfm and get linked to their page on ratemyprofessor.com",
+  "version": "1.3",
+  "manifest_version": 2,
+  "content_scripts": [
+    {
+      "css": ["content.css"],
+      "matches": ["https://sis.stolaf.edu/sis/public-aclasslab.cfm*"],
+      "js": ["env.js", "hardCodedRMPData.js", "content.js"]
     }
+  ],
+  "icons": {
+    "16": "images/stolaf128.png",
+    "48": "images/stolaf16.png",
+    "128": "images/stolaf48.png"
+  },
+  "browser_action": {
+    "default_title": "Olerate",
+    "default_popup": "popup.html"
+  }
 }
