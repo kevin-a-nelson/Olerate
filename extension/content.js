@@ -166,7 +166,8 @@ function dataFetchedLessThanTenMinAgo() {
   const miliseconds = now - localStorageDate;
   const seconds = miliseconds / 1000;
   const minutes = seconds / 60;
-  return minutes <= 10;
+  const hours = minutes / 60;
+  return hours < 24;
 }
 
 function hardCodedDataIsMoreRecent() {
