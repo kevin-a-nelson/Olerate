@@ -44,8 +44,7 @@ function removeSpinner() {
 }
 
 const setMessageToLoading = () => {
-  messageElement.innerText =
-    "Loading rate my professor links ( may take up to 15 seconds )";
+  messageElement.innerText = "Loading rate my professor links";
   messageElement.id = "olerate-message-loading";
   messageContainer.className = "sis-flash sis-flash-primary p-3";
   courseTable.style.display = "none";
@@ -159,14 +158,21 @@ function dataFetchedLessThanTenMinAgo() {
     return false;
   }
 
-  const RMPData = JSON.parse(localStorage.RMPData);
-  const localStorageDate = new Date(RMPData.time);
-  const now = new Date();
+  const hours = 0;
 
-  const miliseconds = now - localStorageDate;
-  const seconds = miliseconds / 1000;
-  const minutes = seconds / 60;
-  const hours = minutes / 60;
+  try {
+    const RMPData = JSON.parse(localStorage.RMPData);
+    const localStorageDate = new Date(RMPData.time);
+    const now = new Date();
+
+    const miliseconds = now - localStorageDate;
+    const seconds = miliseconds / 1000;
+    const minutes = seconds / 60;
+    hours = minutes / 60;
+  } catch {
+    localStorage.clear();
+    return false;
+  }
   return hours < 24;
 }
 
@@ -174,9 +180,14 @@ function hardCodedDataIsMoreRecent() {
   if (!localStorage.RMPData) {
     return true;
   }
-  const hardCodedDataTime = hardCodedRMPData.time;
-  let localStorageTime = JSON.parse(localStorage.RMPData).time;
-  localStorageTime = new Date(localStorageTime);
+  try {
+    const hardCodedDataTime = hardCodedRMPData.time;
+    let localStorageTime = JSON.parse(localStorage.RMPData).time;
+    localStorageTime = new Date(localStorageTime);
+  } catch {
+    localStorage.clear();
+    return true;
+  }
   return hardCodedDataTime > localStorageTime;
 }
 
@@ -212,8 +223,8 @@ function main() {
     return;
   } else if (ENV.useFetchedData) {
     const url = ENV.isA
-      ? "https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-A-RMP-profs.json"
-      : "https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-B-RMP-profs.json";
+      ? "https://raw.githubusercontent.com/kevin-a-nelson/Olerate/master/profScraper/final-A-RMP-profs.json"
+      : "https://raw.githubusercontent.com/kevin-a-nelson/Olerate/master/profScraper/final-B-RMP-profs.json";
 
     fetch(url)
       .then((response) => response.json())
@@ -230,12 +241,15 @@ function main() {
     useLocalStorageData();
   } else {
     const url = ENV.isA
-      ? "https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-A-RMP-profs.json"
-      : "https://raw.githubusercontent.com/kevin-a-nelson/AzureDevops/master/profScraper/final-B-RMP-profs.json";
+      ? "https://raw.githubusercontent.com/kevin-a-nelson/Olerate/master/profScraper/final-A-RMP-profs.json"
+      : "https://raw.githubusercontent.com/kevin-a-nelson/Olerate/master/profScraper/final-B-RMP-profs.json";
 
     fetch(url)
       .then((response) => response.json())
       .then((RMPData) => {
+        if (ENV.failAPICall) {
+          throw Error();
+        }
         useFetchedData(RMPData);
       })
       .catch((error) => {
