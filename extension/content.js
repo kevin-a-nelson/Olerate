@@ -44,7 +44,8 @@ function removeSpinner() {
 }
 
 const setMessageToLoading = () => {
-  messageElement.innerText = "Loading rate my professor links";
+  messageElement.innerText =
+    "Loading ratings and links from rate my professor ( may take up to 15 seconds )";
   messageElement.id = "olerate-message-loading";
   messageContainer.className = "sis-flash sis-flash-primary p-3";
   courseTable.style.display = "none";
@@ -54,7 +55,7 @@ const setMessageToSuccess = () => {
   messageContainer.className = "sis-flash sis-flash-success";
   messageElement.id = "olerate-message-success";
   messageElement.innerText =
-    "Success! Click on a professor to go to their rate my professor page!";
+    "Success! Click on a professor to go to their page on rate my professor or view their rating next to the ⭐";
   courseTable.style.display = "";
 };
 
@@ -64,12 +65,6 @@ const setMessageToNothing = () => {
   messageContainer.className = "";
   courseTable.style.display = "";
 };
-
-// Change Instructor(s) to Instructor(rating)
-function setInstructorLabel() {
-  const instructor = document.getElementsByClassName("course--instructor")[0];
-  instructor.innerText = "Instructor\n(rating)";
-}
 
 /*
 ================================================
@@ -92,7 +87,7 @@ const insertProfRating = (profElement, RMPProf, professor) => {
   if (RMPProf) {
     const ProfRating = RMPProf.split(":")[1];
     const ProfId = RMPProf.split(":")[0];
-    profElement.innerText = `${professor} (${ProfRating})`;
+    profElement.innerText = `${professor} ⭐${ProfRating}`;
     profElement.href = `https://www.ratemyprofessors.com/ShowRatings.jsp?tid=${ProfId}`;
     profElement.target = "_blank";
   } else {
@@ -129,7 +124,6 @@ const onSearchButtonClick = (RMPData) => {
     if (!searchButton.disabled) {
       removeSpinner();
       if (coursesFound()) {
-        setInstructorLabel();
         setMessageToSuccess();
         insertProfessorRatings(RMPData);
       } else {
@@ -158,22 +152,24 @@ function dataFetchedLessThanTenMinAgo() {
     return false;
   }
 
-  const hours = 0;
-
   try {
     const RMPData = JSON.parse(localStorage.RMPData);
-    const localStorageDate = new Date(RMPData.time);
-    const now = new Date();
 
-    const miliseconds = now - localStorageDate;
+    const localStorageDate = new Date(RMPData.time);
+    const currentDate = new Date();
+
+    const locaStorageDateMiliseconds = localStorageDate.getTime();
+    const currentDateMiliseconds = currentDate.getTime();
+
+    const miliseconds = currentDateMiliseconds - locaStorageDateMiliseconds;
     const seconds = miliseconds / 1000;
     const minutes = seconds / 60;
-    hours = minutes / 60;
+    const hours = minutes / 60;
+    return hours < 24;
   } catch {
     localStorage.clear();
     return false;
   }
-  return hours < 24;
 }
 
 function hardCodedDataIsMoreRecent() {
@@ -182,13 +178,19 @@ function hardCodedDataIsMoreRecent() {
   }
   try {
     const hardCodedDataTime = hardCodedRMPData.time;
-    let localStorageTime = JSON.parse(localStorage.RMPData).time;
+    const RMPData = JSON.parse(localStorage.RMPData);
+
+    const localStorageDate = new Date(RMPData.time);
     localStorageTime = new Date(localStorageTime);
+
+    const hardCodedDataMiliseconds = hardCodedDataTime.getTime();
+    const localstorageMiliseconds = localStorageTime.getTime();
+
+    return hardCodedDataMiliseconds > localstorageMiliseconds;
   } catch {
     localStorage.clear();
     return true;
   }
-  return hardCodedDataTime > localStorageTime;
 }
 
 function useFetchedData(fetchedRMPData) {

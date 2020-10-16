@@ -1,30 +1,34 @@
 const RMP_PROFS = require("./RMP-profs");
 const RMP_TO_SIS = require("./RMP-to-SIS");
-const ENV = require("./env.js")
+const ENV = require("./env.js");
 
 const fs = require("fs");
 
-const finalRMPProfs = {};
+const finalRMPProfs = {
+  time: new Date(),
+};
 
 function writeFile(file, profs) {
-    fs.writeFile(file, profs, function (err) {
-        if (err) {
-            return console.error(err);
-        }
-        console.log(`${file} created!`);
-    });
+  fs.writeFile(file, profs, function (err) {
+    if (err) {
+      return console.error(err);
+    }
+    console.log(`${file} created!`);
+  });
 }
 
 for (let RMPProfName in RMP_PROFS) {
-    const SISProfName = RMP_TO_SIS[RMPProfName];
+  const SISProfName = RMP_TO_SIS[RMPProfName];
 
-    if (SISProfName) {
-        const RMPProf = RMP_PROFS[RMPProfName]
-        const finalRMPProf = `${RMPProf.id}:${RMPProf.rating}`
-        finalRMPProfs[SISProfName] = finalRMPProf;
-    }
+  if (SISProfName) {
+    const RMPProf = RMP_PROFS[RMPProfName];
+    const finalRMPProf = `${RMPProf.id}:${RMPProf.rating}`;
+    finalRMPProfs[SISProfName] = finalRMPProf;
+  }
 }
 
-const nameOfFile = ENV.isA ? "final-A-RMP-profs.json" : "final-B-RMP-profs.json"
+const nameOfFile = ENV.isA
+  ? "final-A-RMP-profs.json"
+  : "final-B-RMP-profs.json";
 
 writeFile(nameOfFile, JSON.stringify(finalRMPProfs));
