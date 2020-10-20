@@ -3,5 +3,5 @@ const ENV = {
   useFetchedData: false,
   useLocalData: false,
   useHardCodedData: false,
-  failAPICall: true,
+  failAPICall: false,
 };
